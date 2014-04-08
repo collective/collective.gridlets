@@ -36,6 +36,9 @@ class GridletsAddPortletsRenderer(ContextualEditPortletManagerRenderer):
     def get_delete_action_url(self):
         return '{}/@@delete-gridlet'.format(self.baseUrl())
 
+    def get_toggle_action_url(self):
+        return '{}/@@toggle-gridlet-visibility'.format(self.baseUrl())
+
 
 class GridletsContextualPortletManagerRenderer(ContextualEditPortletManagerRenderer):
     """Render a portlet manager in edit mode for contextual portlets"""
@@ -113,5 +116,4 @@ class ManageGridletsPortletAssignments(ManagePortletAssignments):
         settings = IPortletAssignmentSettings(assignments[name])
         visible = settings.get('visible', True)
         settings['visible'] = not visible
-        import ipdb;ipdb.set_trace()
         return self.finish_portlet_change()

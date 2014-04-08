@@ -40,13 +40,7 @@ $(document).ready(function() {
       event.preventDefault();
       event.stopPropagation();
       // $('#kss-spinner').show();
-      // var form = $(this);
-      // var formdata = form.serializeArray();
-      // var data = {};
-      // for(var i=0; i<formdata.length; i++){
-          // data[formdata[i].name] = formdata[i].value;
-      // }
-      // debugger;
+
       var form = $(this).parents('.portlet-action');
       var data = {};
       data['name'] = form.data().name;
@@ -62,10 +56,13 @@ $(document).ready(function() {
               if (form.data().friendlyaction === 'delete'){
                 var gridster = $(".gridster ul").gridster().data('gridster');
                 gridster.remove_widget(form.parents('li'));
-                // form.parents('li').remove()
               }
-              // container.replaceWith($(data));
-              // $('#kss-spinner').hide();
+              if (form.data().friendlyaction === 'toggle'){
+                icon = form.children('a').children('i')
+                icon_class = icon.attr('class');
+                if (icon_class === 'fa fa-eye') { icon.removeClass('fa-eye'); icon.addClass('fa-eye-slash');}
+                else {icon.removeClass('fa-eye-slash'); icon.addClass('fa-eye');}
+              }
           },
           error: function(){
               // $('#kss-spinner').hide();

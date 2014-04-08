@@ -30,38 +30,39 @@
                    tal:content="portlet/title" />
                 <tal:nolink condition="not:portlet/editview" content="portlet/title"></tal:nolink>
               </strong>
-              <div class="managedPortletActions pull-right btn-group">
-                <div class="portlet-action align-right inline-block margin0"
-                     tal:attributes="data-action portlet/show_url;
+              <div class="managedPortletActions pull-right">
+                <div class="portlet-action"
+                     data-friendlyaction="toggle"
+                     tal:attributes="data-action manager_view/get_toggle_action_url;
                                      data-referrer manager_view/url_quote_referer;
                                      data-name portlet/name;
                                      data-viewname manager_view/view_name"
                      tal:condition="not: portlet/visible">
                   <span tal:replace="structure authenticator"/>
-                  <a class="btn btn-mini" type="submit" title="Mostra" i18n:attributes="title"
+                  <a class="btn btn-sm btn-warning" title="Show" i18n:attributes="title" type="button"
                      tal:attributes="name string:${portlet/name}-show"><i class="fa fa-eye-slash"></i></a>
                 </div>
 
-                <div class="portlet-action align-right inline-block margin0"
-                     tal:attributes="data-action portlet/hide_url;
+                <div class="portlet-action"
+                     data-friendlyaction="toggle"
+                     tal:attributes="data-action manager_view/get_toggle_action_url;
                                      data-referrer manager_view/url_quote_referer;
                                      data-name portlet/name;
                                      data-viewname manager_view/view_name"
                      tal:condition="portlet/visible">
                   <span tal:replace="structure authenticator"/>
-                  <a class="btn btn-mini btn-success" type="submit" title="Amaga" i18n:attributes="title"
+                  <a class="btn btn-sm btn-success" title="Hide" i18n:attributes="title" type="button"
                      tal:attributes="name string:${portlet/name}-hide"><i class="fa fa-eye"></i></a>
                 </div>
-                <div class="portlet-action align-right inline-block margin0"
+                <div class="portlet-action"
                      data-friendlyaction="delete"
                      tal:attributes="data-action manager_view/get_delete_action_url;
                                      data-referrer manager_view/url_quote_referer;
                                      data-name portlet/name;
-                                     data-viewname manager_view/view_name;"
-                     tal:condition="portlet/visible">
+                                     data-viewname manager_view/view_name;">
                   <span tal:replace="structure authenticator"/>
-                  <a class="btn btn-mini btn-danger fa-lg" i18n:attributes="title" title="Remove" type="submit"
-                     tal:attributes="name string:${portlet/name}-remove"><i class="fa fa-times"></i>
+                  <a class="btn btn-sm btn-danger" i18n:attributes="title" title="Remove" type="button"
+                     tal:attributes="name string:${portlet/name}-remove"><i class="fa fa-times" style="width: 12px;"></i>
                   </a>
                 </div>
               </div>

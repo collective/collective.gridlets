@@ -6,15 +6,8 @@
 
     <include package ="plone.app.portlets" />
 
-<!-- add a management view for the portlet manager -->
-    <browser:page
-        name="gridlets-manage-portlets"
-        for="plone.portlets.interfaces.ILocalPortletAssignable"
-        class=".manager.GridletsManageContextualPortlets"
-        template="templates/managehomeportlets.pt"
-        permission="plone.app.portlets.ManagePortlets"
-    />
-
+<!-- VIEWS -->
+    <!-- Gridlet custom portlet macros -->
     <browser:page
         for="collective.gridlets.interfaces.IHomepage"
         name="manage-portlets-macros"
@@ -43,32 +36,9 @@
 
     </browser:pages>
 
-    <!-- Modify template to make regular portlets work -->
-<!--     <browser:page
-        for="plone.portlets.interfaces.ILocalPortletAssignable"
-        name="manage-portlets"
-        class="plone.app.portlets.browser.manage.ManageContextualPortlets"
-        template="templates/manage-contextual.pt"
-        permission="plone.app.portlets.ManagePortlets"
-        layer="genweb.portlets.browser.interfaces.IGenwebPortlets"
-        /> -->
-
-    <!-- Helper view to set spans to portlets managers for a given context -->
-<!--     <browser:page
-        for="*"
-        name="set-portlethomemanager-span"
-        class="genweb.portlets.browser.manager.setPortletHomeManagerSpan"
-        permission="plone.app.portlets.ManageOwnPortlets"
-        layer="genweb.portlets.browser.interfaces.IGenwebPortlets"
-        /> -->
 
 <!-- ADAPTERS -->
-<!-- make an adapter for our very own renderer -->
-<!--     <adapter
-        factory="genweb.portlets.browser.manager.GenwebPortletRenderer"
-        provides="plone.portlets.interfaces.IPortletManagerRenderer"
-    /> -->
-
+    <!-- make an adapter for our very own renderer -->
     <adapter
         factory="collective.gridlets.browser.manager.GridletsContextualPortletManagerRenderer"
         provides="plone.portlets.interfaces.IPortletManagerRenderer"

@@ -92,7 +92,7 @@ class GridsterWidget(textarea.TextAreaWidget):
         return managerview.render()
 
     def get_portlet_manager_view(self):
-        manageview = getMultiAdapter((self.context, self.request), name="gridlets-manage-portlets")
+        manageview = getMultiAdapter((self.context, self.request), name="manage-portlets")
         manager = getUtility(IPortletManager, name='collective.gridlets.portletManager')
         return GridletsAddPortletsRenderer(self.context, self.request, manageview, manager)
 

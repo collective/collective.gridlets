@@ -14,7 +14,7 @@
             </tal:addportlet>
             <span class="caret"></span>
           </button>
-          <ul id="gwportletselector" class="dropdown-menu">
+          <ul id="gridportletselector" class="dropdown-menu">
             <li tal:repeat="portlet portlets">
               <a tal:attributes="href string:${portlet/addview}"
                  tal:content="portlet/title"

@@ -1,0 +1,125 @@
+<div metal:define-macro="portlet-add-form" class="section" i18n:domain="plone">
+
+    <div data-method="post" data-action="#" id="portletselectorform"
+          tal:define="portlets view/addable_portlets"
+          tal:condition="portlets"
+          tal:attributes="data-action view/context_url;
+                          data-referer view/referer">
+        <input type="hidden" name="referer" tal:attributes="value view/referer" />
+
+        <div class="btn-group">
+          <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+            <tal:addportlet i18n:translate="label_add_portlet_ellipsis">
+              Add portlet&hellip;
+            </tal:addportlet>
+            <span class="caret"></span>
+          </button>
+          <ul id="gwportletselector" class="dropdown-menu">
+            <li tal:repeat="portlet portlets">
+              <a tal:attributes="href string:${portlet/addview}"
+                 tal:content="portlet/title"
+                 i18n:translate="" />
+            </li>
+          </ul>
+        </div>
+
+        <input type="hidden" name=":action" value="" />
+
+        <noscript>
+            <input class="standalone"
+                   type="submit"
+                   value="Add portlet"
+                   i18n:attributes="value label_add_portlet;"/>
+        </noscript>
+
+    </div>
+</div>
+
+<div metal:define-macro="current-portlets-list" class="portletAssignments" tal:define="portlet view/portlets"
+    i18n:domain="plone" tal:condition="portlet">
+
+    <h4 tal:condition="portlet" i18n:translate="heading_portlets_assigned_here">
+        Portlets assigned here
+    </h4>
+
+    <div class="gridster">
+      <ul>
+        <tal:block repeat="portlet view/portlets">
+          <li class="well" tal:define="position python:view.get_gridlet_position(portlet['hash'])"
+              tal:attributes="data-row python:position['row'];
+                              data-col python:position['col'];
+                              data-sizex python:position['size_x'];
+                              data-sizey python:position['size_y'];
+                              data-portlethash portlet/hash;">
+            <div tal:define="hiddenPortletClass python:not portlet['visible'] and 'blockedPortlet' or ''"
+                tal:attributes="class string:managedPortlet ${hiddenPortletClass};
+                                data-portlethash portlet/hash;
+                                data-viewname view/view_name;">
+                <div class="portletHeader" tal:define="authenticator context/@@authenticator/authenticator">
+                    <strong>
+                      <a class="" tal:condition="portlet/editview"
+                         tal:attributes="href string:${portlet/editview}?referer=${view/url_quote_referer}"
+                         tal:content="portlet/title" />
+                      <tal:nolink condition="not:portlet/editview" content="portlet/title"></tal:nolink>
+                    </strong>
+                    <div class="managedPortletActions pull-right btn-group">
+
+                      <div class="portlet-action align-right inline-block margin0"
+                           tal:attributes="data-action portlet/show_url;
+                                           data-referrer view/url_quote_referer;
+                                           data-name portlet/name;
+                                           data-viewname view/view_name"
+                           tal:condition="not: portlet/visible">
+                        <span tal:replace="structure authenticator"/>
+                        <a class="btn btn-mini" type="submit" title="Mostra" i18n:attributes="title"
+                           tal:attributes="name string:${portlet/name}-show"><i class="fa fa-eye-slash"></i></a>
+                      </div>
+
+                      <div class="portlet-action align-right inline-block margin0"
+                           tal:attributes="data-action portlet/hide_url;
+                                           data-referrer view/url_quote_referer;
+                                           data-name portlet/name;
+                                           data-viewname view/view_name"
+                           tal:condition="portlet/visible">
+                        <span tal:replace="structure authenticator"/>
+                        <a class="btn btn-mini btn-success" type="submit" title="Amaga" i18n:attributes="title"
+                           tal:attributes="name string:${portlet/name}-hide"><i class="fa fa-eye"></i></a>
+                      </div>
+
+<!--                       <form class="portlet-action align-right inline-block margin0" method="POST" tal:attributes="action portlet/up_url"
+                          tal:condition="not:repeat/portlet/start">
+                        <input type="hidden" name="referrer" tal:attributes="value view/url_quote_referer" />
+                        <input type="hidden" name="name" tal:attributes="value portlet/name" />
+                        <input type="hidden" name="viewname" tal:attributes="value view/view_name" />
+                        <span tal:replace="structure authenticator"/>
+                        <button class="btn btn-mini" title="Move up" i18n:attributes="title" type="submit"
+                          tal:attributes="name string:${portlet/name}-up"><i class="fa fa-chevron-up"></i></button>
+                      </form>
+
+                      <form class="portlet-action align-right inline-block margin0" method="POST" tal:attributes="action portlet/down_url"
+                          tal:condition="not:repeat/portlet/end">
+                        <input type="hidden" name="referrer" tal:attributes="value view/url_quote_referer" />
+                        <input type="hidden" name="name" tal:attributes="value portlet/name" />
+                        <input type="hidden" name="viewname" tal:attributes="value view/view_name" />
+                        <span tal:replace="structure authenticator"/>
+                        <button class="btn btn-mini" title="Move down" i18n:attributes="title" type="submit"
+                          tal:attributes="name string:${portlet/name}-down"><i class="fa fa-chevron-down"></i></button>
+                      </form> -->
+
+                      <form class="portlet-action delete align-right inline-block margin0" method="POST" tal:attributes="action portlet/delete_url">
+                        <input type="hidden" name="referrer" tal:attributes="value view/url_quote_referer" />
+                        <input type="hidden" name="name" tal:attributes="value portlet/name" />
+                        <input type="hidden" name="viewname" tal:attributes="value view/view_name" />
+                        <span tal:replace="structure authenticator"/>
+                        <button class="btn btn-mini btn-danger fa-lg" i18n:attributes="title" title="Remove" type="submit"
+                          tal:attributes="name string:${portlet/name}-remove"><i class="fa fa-times"></i></button>
+                      </form>
+                    </div>
+                </div>
+            </div>
+          </li>
+        </tal:block>
+      </ul>
+    </div>
+
+</div>

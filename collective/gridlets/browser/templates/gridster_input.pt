@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag="">
+
+<tal:widget define="manager_view view/get_portlet_manager_view">
+
+  <span tal:replace="structure view/render_edit_portlet_manager" />
+  <!-- <span tal:content="view/getIt"></span> -->
+
+  <script type="text/javascript" tal:content="structure view/js"></script>
+
+  <div class="gridster">
+    <ul>
+      <!-- Generate here all the existing portlets from edit-manager-macros -->
+      <tal:block repeat="portlet manager_view/portlets">
+        <li class="well" tal:define="position python:view.get_gridlet_position(portlet['hash'])"
+            tal:attributes="data-row python:position['row'];
+                            data-col python:position['col'];
+                            data-sizex python:position['size_x'];
+                            data-sizey python:position['size_y'];
+                            data-portlethash portlet/hash;">
+          <div tal:define="hiddenPortletClass python:not portlet['visible'] and 'blockedPortlet' or ''"
+              tal:attributes="class string:managedPortlet ${hiddenPortletClass};
+                              data-portlethash portlet/hash;
+                              data-viewname manager_view/view_name;">
+            <div class="portletHeader" tal:define="authenticator context/@@authenticator/authenticator">
+              <strong>
+                <a class="" tal:condition="portlet/editview"
+                   tal:attributes="href string:${portlet/editview}?referer=${manager_view/url_quote_referer}"
+                   tal:content="portlet/title" />
+                <tal:nolink condition="not:portlet/editview" content="portlet/title"></tal:nolink>
+              </strong>
+              <div class="managedPortletActions pull-right btn-group">
+                <div class="portlet-action align-right inline-block margin0"
+                     tal:attributes="data-action portlet/show_url;
+                                     data-referrer manager_view/url_quote_referer;
+                                     data-name portlet/name;
+                                     data-viewname manager_view/view_name"
+                     tal:condition="not: portlet/visible">
+                  <span tal:replace="structure authenticator"/>
+                  <a class="btn btn-mini" type="submit" title="Mostra" i18n:attributes="title"
+                     tal:attributes="name string:${portlet/name}-show"><i class="fa fa-eye-slash"></i></a>
+                </div>
+
+                <div class="portlet-action align-right inline-block margin0"
+                     tal:attributes="data-action portlet/hide_url;
+                                     data-referrer manager_view/url_quote_referer;
+                                     data-name portlet/name;
+                                     data-viewname manager_view/view_name"
+                     tal:condition="portlet/visible">
+                  <span tal:replace="structure authenticator"/>
+                  <a class="btn btn-mini btn-success" type="submit" title="Amaga" i18n:attributes="title"
+                     tal:attributes="name string:${portlet/name}-hide"><i class="fa fa-eye"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </tal:block>
+    </ul>
+  </div>
+
+  <input type="hidden"
+      id="" name="" class="" cols="" rows=""
+      tabindex="" disabled="" readonly="" accesskey=""
+      tal:attributes="id view/id;
+                      name view/name;
+                      class view/klass;
+                      title view/title;
+                      lang view/lang;
+                      onclick view/onclick;
+                      ondblclick view/ondblclick;
+                      onmousedown view/onmousedown;
+                      onmouseup view/onmouseup;
+                      onmouseover view/onmouseover;
+                      onmousemove view/onmousemove;
+                      onmouseout view/onmouseout;
+                      onkeypress view/onkeypress;
+                      onkeydown view/onkeydown;
+                      onkeyup view/onkeyup;
+                      disabled view/disabled;
+                      tabindex view/tabindex;
+                      onfocus view/onfocus;
+                      onblur view/onblur;
+                      onchange view/onchange;
+                      cols view/cols;
+                      rows view/rows;
+                      readonly view/readonly;
+                      accesskey view/accesskey;
+                      onselect view/onselect;
+                      value view/value"/>
+</tal:widget>
+</html>

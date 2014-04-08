@@ -2,10 +2,24 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.gridlets">
 
   <five:registerPackage package="." initialize=".initialize" />
+
+  <include package=".browser" />
+
+  <include package="plone.directives.form" file="meta.zcml" />
+  <include package="plone.directives.form" />
+
+  <plone:behavior
+      title="Gridlet Field"
+      description="Add field for store gridlets serialization"
+      provides=".behavior.IGridlets"
+      factory=".behavior.Gridlets"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
 
   <genericsetup:registerProfile
       name="default"
@@ -14,6 +28,5 @@
       description="Installs the collective.gridlets package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
-  
+
 </configure>

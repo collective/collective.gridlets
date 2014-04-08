@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<portlets>
+
+    <portletmanager
+         name="collective.gridlets.portletManager"
+         type="collective.gridlets.interfaces.IGridletsPortletManager"
+    />
+
+</portlets>

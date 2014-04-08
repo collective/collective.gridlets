@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+ <javascript authenticated="False" bundle="default" cacheable="True"
+    compression="safe" conditionalcomment="" cookable="False" enabled="True"
+    expression="" id="++resource++gridster.min.js" inline="False"/>
+
+ <javascript authenticated="False" bundle="default" cacheable="True"
+    compression="safe" conditionalcomment="" cookable="False" enabled="True"
+    expression="" id="++resource++collective.gridlets.js" inline="False"/>
+</object>

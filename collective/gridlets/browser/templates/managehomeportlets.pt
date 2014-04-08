@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="genweb">
+<head>
+  <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+    <script type="text/javascript"
+      tal:attributes="src string:${context/absolute_url}/++resource++gw-manage-portlets.js">
+    </script>
+
+    <script type="text/javascript"
+      tal:attributes="src string:${context/absolute_url}/++resource++manage-portlets.js">
+    </script>
+
+    <script type="text/javascript"
+      tal:attributes="src string:${context/absolute_url}/++resource++gridster.min.js">
+    </script>
+
+  </div>
+  <div metal:fill-slot="style_slot" tal:omit-tag="">
+<!--     <link rel="stylesheet"
+      tal:attributes="href string:${context/absolute_url}/++genweb++static/css/alertify.core.css">
+    <link rel="stylesheet"
+      tal:attributes="href string:${context/absolute_url}/++genweb++static/css/alertify.default.css"> -->
+    <link rel="stylesheet"
+      tal:attributes="href string:${context/absolute_url}/++resource++gridster.css">
+    <link rel="stylesheet"
+      tal:attributes="href string:${context/absolute_url}/++resource++gridportlets.css">
+  </div>
+</head>
+
+<body class="manage-homeportlets">
+
+  <metal:block fill-slot="top_slot"
+                   tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                               disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
+
+  <div metal:fill-slot="portlets_one_slot">
+      <tal:comment tal:replace="nothing">get rid of the left hand column portlets to avoid confusion</tal:comment>
+  </div>
+
+  <div metal:fill-slot="main">
+
+<!--     <tal:warning tal:condition="plone_view/isDefaultPageInFolder">
+      <div class="alert alert-info"
+           tal:attributes="class string:alert alert-warning">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+            <strong i18n:translate="">
+                      Warning
+            </strong>
+            <tal:msg i18n:translate="message_warning_footer_area_dt">
+              Is this really where you want to add portlets in the footer area?
+            </tal:msg>
+            <tal:msg i18n:translate="message_warning_footer_area_dd">
+              If you add portlets here, they will only appear on this item. If instead you want portlets to appear on all items in this folder,
+              <a href=""
+                   tal:attributes="href string:${plone_view/getCurrentFolderUrl}/@@manage-homeportlets"
+                    i18n:name="manage-footerportlets_link">
+                    <span i18n:translate="add_them_to_the_folder_itself">add them to the folder itself</span>
+                </a>
+            </tal:msg>
+      </div>
+    </tal:warning> -->
+
+    <h1 class="documentFirstHeading"
+        i18n:translate="manage_portlets_footer">Manage home portlets</h1>
+
+    <p>
+      <a href="" class="link-parent btn btn-success">
+        <span
+          tal:attributes="href string:${context/portal_url}"
+          i18n:translate="return_to_view">Return</span>
+     </a>
+    </p>
+
+    <section id="content">
+      <div>
+        <div id="portal-columns" class="row">
+          <div id="portal-column-content" class="col-md-12">
+                <!-- <span tal:content="python:view.getValue('genweb.portlets.HomePortletManager1')" /> -->
+
+            <div class="panel panel-default">
+              <div class="panel-heading"><h2 i18n:translate="homeportlets_title_1">1st Row</h2></div>
+              <div class="panel-body">
+                <span tal:replace="structure provider:collective.gridlets.portletManager" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+        <div metal:fill-slot="portlets_two_slot">
+            <tal:comment tal:replace="nothing">get rid of the left hand column portlets to avoid confusion</tal:comment>
+        </div>
+
+    </body>
+</html>

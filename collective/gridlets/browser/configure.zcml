@@ -1,0 +1,98 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="genweb.portlets">
+
+    <include package ="plone.app.portlets" />
+
+<!-- add a management view for the portlet manager -->
+    <browser:page
+        name="gridlets-manage-portlets"
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        class=".manager.GridletsManageContextualPortlets"
+        template="templates/managehomeportlets.pt"
+        permission="plone.app.portlets.ManagePortlets"
+    />
+
+    <browser:page
+        for="collective.gridlets.interfaces.IHomepage"
+        name="manage-portlets-macros"
+        class=".manager.GridletsManageContextualPortlets"
+        template="templates/edit-manager-macros.pt"
+        permission="plone.app.portlets.ManageOwnPortlets"
+        layer="collective.gridlets.interfaces.IGridletsLayer"
+        />
+
+    <!-- Operations on portlets when in edit mode -->
+    <browser:pages
+      for="plone.portlets.interfaces.IPortletAssignmentMapping"
+      class=".manager.ManageGridletsPortletAssignments"
+      permission="plone.app.portlets.ManageOwnPortlets"
+      >
+
+      <browser:page
+        name="delete-gridlet"
+        attribute="delete_portlet"
+        />
+
+      <browser:page
+        name="toggle-gridlet-visibility"
+        attribute="toggle_visibility"
+        />
+
+    </browser:pages>
+
+    <!-- Modify template to make regular portlets work -->
+<!--     <browser:page
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        name="manage-portlets"
+        class="plone.app.portlets.browser.manage.ManageContextualPortlets"
+        template="templates/manage-contextual.pt"
+        permission="plone.app.portlets.ManagePortlets"
+        layer="genweb.portlets.browser.interfaces.IGenwebPortlets"
+        /> -->
+
+    <!-- Helper view to set spans to portlets managers for a given context -->
+<!--     <browser:page
+        for="*"
+        name="set-portlethomemanager-span"
+        class="genweb.portlets.browser.manager.setPortletHomeManagerSpan"
+        permission="plone.app.portlets.ManageOwnPortlets"
+        layer="genweb.portlets.browser.interfaces.IGenwebPortlets"
+        /> -->
+
+<!-- ADAPTERS -->
+<!-- make an adapter for our very own renderer -->
+<!--     <adapter
+        factory="genweb.portlets.browser.manager.GenwebPortletRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+    /> -->
+
+    <adapter
+        factory="collective.gridlets.browser.manager.GridletsContextualPortletManagerRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+    />
+
+<!-- RESOURCES -->
+    <browser:resource
+        name="collective.gridlets.js"
+        file="collective.gridlets.js"
+        />
+
+    <browser:resource
+        name="gridster.min.js"
+        file="gridster/jquery.gridster.min.js"
+        />
+
+    <browser:resource
+        name="gridster.css"
+        file="gridster/jquery.gridster.min.css"
+        />
+
+    <browser:resource
+        name="gridlets.css"
+        file="gridlets.css"
+        />
+
+</configure>

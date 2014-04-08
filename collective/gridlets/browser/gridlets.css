@@ -1,0 +1,7 @@
+.gridster li {
+    list-style: none;
+}
+
+.gridster {background-color: #222222;}
+
+.gridster>* { margin: 0;}

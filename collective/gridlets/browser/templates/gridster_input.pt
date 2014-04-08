@@ -52,6 +52,18 @@
                   <a class="btn btn-mini btn-success" type="submit" title="Amaga" i18n:attributes="title"
                      tal:attributes="name string:${portlet/name}-hide"><i class="fa fa-eye"></i></a>
                 </div>
+                <div class="portlet-action align-right inline-block margin0"
+                     data-friendlyaction="delete"
+                     tal:attributes="data-action manager_view/get_delete_action_url;
+                                     data-referrer manager_view/url_quote_referer;
+                                     data-name portlet/name;
+                                     data-viewname manager_view/view_name;"
+                     tal:condition="portlet/visible">
+                  <span tal:replace="structure authenticator"/>
+                  <a class="btn btn-mini btn-danger fa-lg" i18n:attributes="title" title="Remove" type="submit"
+                     tal:attributes="name string:${portlet/name}-remove"><i class="fa fa-times"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

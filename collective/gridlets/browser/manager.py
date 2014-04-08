@@ -33,6 +33,9 @@ class GridletsAddPortletsRenderer(ContextualEditPortletManagerRenderer):
 
     template = ViewPageTemplateFile('templates/add-portlets-widget.pt')
 
+    def get_delete_action_url(self):
+        return '{}/@@delete-gridlet'.format(self.baseUrl())
+
 
 class GridletsContextualPortletManagerRenderer(ContextualEditPortletManagerRenderer):
     """Render a portlet manager in edit mode for contextual portlets"""

@@ -33,12 +33,12 @@
 
       <browser:page
         name="delete-gridlet"
-        attribute="delete_portlet"
+        attribute="delete_gridlet"
         />
 
       <browser:page
         name="toggle-gridlet-visibility"
-        attribute="toggle_visibility"
+        attribute="toggle_gridlet_visibility"
         />
 
     </browser:pages>

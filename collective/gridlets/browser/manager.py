@@ -117,3 +117,44 @@ class ManageGridletsPortletAssignments(ManagePortletAssignments):
         visible = settings.get('visible', True)
         settings['visible'] = not visible
         return self.finish_portlet_change()
+
+
+class GridletsPortletRenderer(ColumnPortletManagerRenderer):
+    """
+    A renderer for the Genweb portlets
+    """
+    adapts(Interface, IDefaultBrowserLayer, IBrowserView, IGridletsPortletManager)
+    template = ViewPageTemplateFile('templates/renderer.pt')
+
+    def get_grid_portlets(self):
+        unordered_portlets = self.allPortlets()
+
+        allportlets = {}
+        for portlet in unordered_portlets:
+            allportlets[portlet['hash']] = portlet
+
+        if self.context.gridlets:
+            positions = json.loads(self.context.gridlets)
+            index = {}
+            # {1: [portlet1, portlet2]}
+            for portlet in positions:
+                index.setdefault(portlet['row'], [])
+                portlet_info = allportlets.get(portlet['id'], False)
+                if portlet_info:
+                    index[portlet['row']].append(dict(row=portlet['row'],
+                                                      col=portlet['col'],
+                                                      size_x=portlet['size_x'],
+                                                      size_y=portlet['size_y'],
+                                                      hash=portlet['id'],
+                                                      category=portlet_info['category'],
+                                                      available=portlet_info['available'],
+                                                      name=portlet_info['name'],
+                                                      assignment=portlet_info['assignment'],
+                                                      manager=portlet_info['manager'],
+                                                      renderer=portlet_info['renderer'],
+                                                      key=portlet_info['key']))
+            grid_portlets = []
+            for k in sorted(index.keys()):
+                grid_portlets.append(sorted(index[k], key=lambda x: x['col']))
+
+            return grid_portlets

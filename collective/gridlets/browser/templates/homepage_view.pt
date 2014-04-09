@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="genweb.portlets">
+<head>
+  <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+  </div>
+</head>
+
+<body class="homepage">
+
+  <metal:block fill-slot="top_slot"
+                   tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                               disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
+
+  <div metal:fill-slot="portlets_one_slot">
+      <tal:comment tal:replace="nothing">get rid of the left hand column portlets to avoid confusion</tal:comment>
+  </div>
+
+  <div metal:fill-slot="main"
+       tal:define="view nocall:view;
+                   have_gridlets context/gridlets">
+      <div class="row">
+        <div class="col-md-12"
+             tal:condition="have_gridlets">
+          <span tal:replace="structure view/render_gridlets" />
+        </div>
+      </div>
+
+<!--         <div class="col-md-9 col-lg-9"
+            tal:attributes="class python:have_portlets_slot1 and 'col-md-9 col-lg-9' or 'col-md-12 col-lg-12'">
+          <tal:comment replace="nothing"> Fila 1 </tal:comment>
+          <div class="row"
+              tal:condition="have_portlets_slot2">
+            <div class="col-md-12 col-lg-12">
+              <span tal:replace="structure python:view.renderProviderByName('genweb.portlets.HomePortletManager2')" />
+            </div>
+          </div>
+          <tal:comment replace="nothing"> Fila 2 </tal:comment>
+          <div class="row"
+              tal:condition="python:have_portlets_slot3 or have_portlets_slot4 or have_portlets_slot5 or have_portlets_slot6">
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot3"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager3"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot4"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager4"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot5"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager5"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot6"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager6"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+          </div>
+          <tal:comment replace="nothing"> Fila 3 </tal:comment>
+          <div class="row"
+              tal:condition="python:have_portlets_slot7 or have_portlets_slot8 or have_portlets_slot9 or have_portlets_slot10">
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot7"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager7"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot8"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager8"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot9"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager9"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+                  <div class="col-md-3"
+                       tal:condition="have_portlets_slot10"
+                       tal:define="manager_name string:genweb.portlets.HomePortletManager10"
+                       tal:attributes="class python:view.getSpanValueForManager(manager_name)">
+                    <span tal:replace="structure python:view.renderProviderByName(manager_name)" />
+                  </div>
+          </div>
+        </div>
+      </div> -->
+
+
+  </div>
+
+        <div metal:fill-slot="portlets_two_slot">
+            <tal:comment tal:replace="nothing">get rid of the left hand column portlets to avoid confusion</tal:comment>
+        </div>
+
+    </body>
+</html>

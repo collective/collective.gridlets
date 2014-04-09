@@ -10,6 +10,15 @@
     <!-- Gridlet custom portlet macros -->
     <browser:page
         for="collective.gridlets.interfaces.IHomepage"
+        name="view"
+        class=".homepage.Homepage"
+        template="templates/homepage_view.pt"
+        permission="zope2.View"
+        />
+
+    <!-- Gridlet custom portlet macros -->
+    <browser:page
+        for="collective.gridlets.interfaces.IHomepage"
         name="manage-portlets-macros"
         class=".manager.GridletsManageContextualPortlets"
         template="templates/edit-manager-macros.pt"
@@ -41,6 +50,10 @@
     <!-- make an adapter for our very own renderer -->
     <adapter
         factory="collective.gridlets.browser.manager.GridletsContextualPortletManagerRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+    />
+    <adapter
+        factory="collective.gridlets.browser.manager.GridletsPortletRenderer"
         provides="plone.portlets.interfaces.IPortletManagerRenderer"
     />
 

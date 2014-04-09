@@ -1,0 +1,18 @@
+<tal:comment tal:replace="nothing">
+We make our own portlet manager renderer instead of parasitizing the one used by Plone's columns
+This means we can get rid of the "manage portlets" link that comes along with all the other Plone column goodness
+</tal:comment>
+
+<tal:block repeat="row view/get_grid_portlets">
+  <!-- <span tal:content="row"></span> -->
+  <div class="row">
+    <tal:columns repeat="portlet row">
+      <div tal:attributes="class string:col-md-${portlet/size_x}">
+        <div tal:attributes="id string:portletwrapper-${portlet/hash};
+                           class string:portletWrapper kssattr-portlethash-${portlet/hash};"
+             tal:content="structure python:view.safe_render(portlet['renderer'])" />
+      </div>
+    </tal:columns>
+  </div>
+</tal:block>
+

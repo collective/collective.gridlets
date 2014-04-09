@@ -143,7 +143,7 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
                 if portlet_info:
                     index[portlet['row']].append(dict(row=portlet['row'],
                                                       col=portlet['col'],
-                                                      size_x=portlet['size_x'],
+                                                      size_x=str(int(portlet['size_x'] * 2)),
                                                       size_y=portlet['size_y'],
                                                       hash=portlet['id'],
                                                       category=portlet_info['category'],

@@ -36,6 +36,15 @@ Dependencies
 
 The theme used must be implemented with Bootstrap 3.
 
+Kudos
+-----
+
+Lots of thanks to Ducksboard.com for this fabulous tool.
+For more information:
+
+ * http://gridster.net/
+ * https://github.com/ducksboard/gridster.js
+
 To Do
 -----
 

@@ -5,57 +5,19 @@ $(document).ready(function() {
       event.preventDefault();
       event.stopPropagation();
       $a = $(event.target);
-      var form = $('#portletselectorform');
-      var data = {};
-      data[':action'] = $a.attr('href');
-      data['referer'] = form.data().referer
+      var formfake = $('#portletselectorformfake');
 
-      data.ajax = true;
-      $.ajax({
-          url: form.data().action,
-          data: data,
-          type: 'POST',
-          success: function(data){
-              var container = form.parents('#content');
-              container.replaceWith($('#content', data));
-              $('.gridster ul').gridster({
-                  widget_margins: [10, 10],
-                  widget_base_dimensions: [150, 150],
-                  max_cols: 6,
-                  resize: {
-                    enabled: true,
-                    axes: ['x'],
-                    stop: function(e, ui, $widget) {
-                      data = {
-                        position: JSON.stringify(this.serialize())
-                      }
-                      $('#form-widgets-IGridlets-gridlets').val(data.position);
-                    }
-                  },
-                  draggable: {
-                    stop: function(event, ui) {
-                      data = {
-                        position: JSON.stringify(this.serialize())
-                      };
-                      $('#form-widgets-IGridlets-gridlets').val(data.position);
-                    }
-                  },
-                  serialize_params: function($w, wgd) {
-                    return {
-                      id: $($w).data().portlethash,
-                      col: wgd.col,
-                      row: wgd.row,
-                      size_x: wgd.size_x,
-                      size_y: wgd.size_y
-                    };
-                  }
-              });
-              $('#kss-spinner').hide();
-          },
-          error: function(){
-              $('#kss-spinner').hide();
-          }
-      });
+      var newform = "<form id='addgridletform' method='POST' action=''>" +
+                 "<input type='hidden' name='referer' value='' />" +
+                 "<input type='hidden' name=':action' value='' />" +
+                 "</form>";
+
+      $('body').append(newform);
+      $form = $('#addgridletform');
+      $form.attr('action', formfake.data().action);
+      $form.find('input[name=":action"]').val($a.attr('href'));
+      $form.find('input[name="referer"]').val(formfake.data().referer);
+      $form.submit();
       return false;
   });
 
@@ -68,7 +30,7 @@ $(document).ready(function() {
       data['name'] = form.data().name;
       data['referrer'] = form.data().referrer;
       data['viewname'] = form.data().viewname;
-      data['_authenticator'] = form.children('input').val()
+      data['_authenticator'] = form.children('input').val();
       data.ajax = true;
       $.ajax({
           url: form.data().action,

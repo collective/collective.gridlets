@@ -17,7 +17,7 @@ What is a gridlet?
 
 A gridlet is a component like a portlet (at the time of writing portlets are the
 only Plone component available as gridlet, but soon could be also plain content
-and views) This initial implementation works with Plone portlets.
+and views). This initial implementation works with standard Plone portlets.
 
 How it works?
 -------------

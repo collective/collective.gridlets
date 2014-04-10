@@ -1,6 +1,6 @@
 <div metal:define-macro="portlet-add-form" class="section" i18n:domain="plone">
 
-    <div data-method="post" data-action="#" id="portletselectorform"
+    <div data-method="post" data-action="#" id="portletselectorformfake"
           tal:define="portlets view/addable_portlets"
           tal:condition="portlets"
           tal:attributes="data-action view/context_url;

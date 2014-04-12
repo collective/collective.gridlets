@@ -21,7 +21,7 @@
 
   <div metal:fill-slot="main"
        tal:define="view nocall:view;
-                   have_gridlets context/gridlets">
+                   have_gridlets view/have_gridlets">
       <div class="row">
         <div class="col-md-12"
              tal:condition="have_gridlets">

@@ -23,3 +23,6 @@ class Homepage(BrowserView):
         provider.update()
 
         return provider.render()
+
+    def have_gridlets(self):
+        return getattr(self.context, 'gridlets', False)

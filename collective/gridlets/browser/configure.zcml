@@ -45,6 +45,16 @@
 
     </browser:pages>
 
+<!-- VIEWLETS -->
+    <browser:viewlet
+        name="plone.manage_portlets_fallback"
+        for="collective.gridlets.interfaces.IHomepage"
+        view="plone.app.layout.globals.interfaces.IViewView"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class="plone.app.layout.viewlets.common.ManagePortletsFallbackViewlet"
+        template="templates/manage_portlets_fallback.pt"
+        permission="zope2.View"
+        />
 
 <!-- ADAPTERS -->
     <!-- make an adapter for our very own renderer -->

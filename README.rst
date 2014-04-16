@@ -31,6 +31,13 @@ The 6 colums grid corresponds to a virtual 12-column Bootstrap 3 grid system.
 The width is scaled and doubled on resultant view display for edit widget
 display reasons.
 
+Screencast Demo
+---------------
+
+You can watch a screencast demo of the product here:
+
+ * http://quick.as/xrn4tleo
+
 Dependencies
 ------------
 

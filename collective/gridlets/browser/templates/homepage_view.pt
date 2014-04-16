@@ -9,18 +9,20 @@
   </div>
 </head>
 
-<body class="homepage">
+<body>
 
   <metal:block fill-slot="top_slot"
                    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
                                disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
 
   <div metal:fill-slot="main">
+    <div class="homepage">
       <div class="row">
         <div class="col-md-12">
           <span tal:replace="structure view/render_gridlets" />
         </div>
       </div>
+    </div>
   </div>
 
 </body>

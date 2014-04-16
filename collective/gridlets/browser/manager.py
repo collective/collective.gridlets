@@ -130,7 +130,7 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
 
         grid = dict(unassigned=[], gridlets=[])
 
-        if (self.context, 'gridlets', False):
+        if getattr(self.context, 'gridlets', False):
             grid_positions = json.loads(self.context.gridlets)
         else:
             grid_positions = []

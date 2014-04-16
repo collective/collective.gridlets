@@ -127,34 +127,111 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
     template = ViewPageTemplateFile('templates/renderer.pt')
 
     def get_grid_portlets(self):
-        unordered_portlets = self.allPortlets()
 
-        allportlets = {}
-        for portlet in unordered_portlets:
-            allportlets[portlet['hash']] = portlet
+        grid = dict(unassigned=[], gridlets=[])
 
-        if self.context.gridlets:
-            positions = json.loads(self.context.gridlets)
-            index = {}
-            # {1: [portlet1, portlet2]}
-            for portlet in positions:
-                index.setdefault(portlet['row'], [])
-                portlet_info = allportlets.get(portlet['id'], False)
-                if portlet_info:
-                    index[portlet['row']].append(dict(row=portlet['row'],
-                                                      col=portlet['col'],
-                                                      size_x=str(int(portlet['size_x'] * 2)),
-                                                      size_y=portlet['size_y'],
-                                                      hash=portlet['id'],
-                                                      category=portlet_info['category'],
-                                                      available=portlet_info['available'],
-                                                      name=portlet_info['name'],
-                                                      assignment=portlet_info['assignment'],
-                                                      manager=portlet_info['manager'],
-                                                      renderer=portlet_info['renderer'],
-                                                      key=portlet_info['key']))
-            grid_portlets = []
-            for k in sorted(index.keys()):
-                grid_portlets.append(sorted(index[k], key=lambda x: x['col']))
+        if (self.context, 'gridlets', False):
+            grid_positions = json.loads(self.context.gridlets)
+        else:
+            grid_positions = []
 
-            return grid_portlets
+        # First index the positions
+        indexed_positions = {}
+        for grid_position in grid_positions:
+            indexed_positions[grid_position['id']] = grid_position
+
+        indexed_by_row = {}
+        for portlet in self.allPortlets():
+            if portlet['hash'] in indexed_positions:
+                portlet_position = indexed_positions[portlet['hash']]
+                indexed_by_row.setdefault(portlet_position['row'], [])
+                indexed_by_row[portlet_position['row']].append(dict(row=portlet_position['row'],
+                                                                    col=portlet_position['col'],
+                                                                    size_x=str(int(portlet_position['size_x'] * 2)),
+                                                                    size_y=portlet_position['size_y'],
+                                                                    hash=portlet['hash'],
+                                                                    category=portlet['category'],
+                                                                    available=portlet['available'],
+                                                                    name=portlet['name'],
+                                                                    assignment=portlet['assignment'],
+                                                                    manager=portlet['manager'],
+                                                                    renderer=portlet['renderer'],
+                                                                    key=portlet['key']))
+            else:
+                # We have an unsaved (unassigned) portlet, so append it to the
+                # unassigned list
+                grid['unassigned'].append(dict(hash=portlet['hash'],
+                                               category=portlet['category'],
+                                               available=portlet['available'],
+                                               name=portlet['name'],
+                                               assignment=portlet['assignment'],
+                                               manager=portlet['manager'],
+                                               renderer=portlet['renderer'],
+                                               key=portlet['key']))
+
+        for k in sorted(indexed_by_row):
+            grid['gridlets'].append(sorted(indexed_by_row[k], key=lambda x: x['col']))
+
+        return grid
+
+        # allportlets = {}
+        # for portlet in unordered_portlets:
+        #     allportlets[portlet['hash']] = portlet
+
+        # if self.context.gridlets:
+        #     positions = json.loads(self.context.gridlets)
+        #     index = {}
+        #     # {1: [portlet1, portlet2]}
+        #     for portlet in positions:
+        #         index.setdefault(portlet['row'], [])
+        #         portlet_info = allportlets.get(portlet['id'], False)
+        #         if portlet_info:
+        #             index[portlet['row']].append(dict(row=portlet['row'],
+        #                                               col=portlet['col'],
+        #                                               size_x=str(int(portlet['size_x'] * 2)),
+        #                                               size_y=portlet['size_y'],
+        #                                               hash=portlet['id'],
+        #                                               category=portlet_info['category'],
+        #                                               available=portlet_info['available'],
+        #                                               name=portlet_info['name'],
+        #                                               assignment=portlet_info['assignment'],
+        #                                               manager=portlet_info['manager'],
+        #                                               renderer=portlet_info['renderer'],
+        #                                               key=portlet_info['key']))
+        #         else:
+        #             # We have an unsaved portlet, so assign it to (1, 1)
+        #             index.setdefault('unassigned', [])
+        #             index['unassigned'].append(dict(hash=portlet['id'],
+        #                                             category=portlet_info['category'],
+        #                                             available=portlet_info['available'],
+        #                                             name=portlet_info['name'],
+        #                                             assignment=portlet_info['assignment'],
+        #                                             manager=portlet_info['manager'],
+        #                                             renderer=portlet_info['renderer'],
+        #                                             key=portlet_info['key']))
+        #     grid_portlets = []
+        #     for k in sorted(index.keys()):
+        #         grid_portlets.append(sorted(index[k], key=lambda x: x['col']))
+        #     import ipdb;ipdb.set_trace()
+        #     return grid_portlets
+        # else:
+        #     # We have no gridlets because it's the first one and we haven't
+        #     # either positioned it or change its size.
+        #     grid_portlets = []
+        #     list_portlets = []
+        #     for portlet_info in unordered_portlets:
+        #         list_portlets.append(dict(row='1',
+        #                                   col='1',
+        #                                   size_x='2',
+        #                                   size_y='1',
+        #                                   hash=portlet['hash'],
+        #                                   category=portlet_info['category'],
+        #                                   available=portlet_info['available'],
+        #                                   name=portlet_info['name'],
+        #                                   assignment=portlet_info['assignment'],
+        #                                   manager=portlet_info['manager'],
+        #                                   renderer=portlet_info['renderer'],
+        #                                   key=portlet_info['key']))
+
+        #     grid_portlets.append(list_portlets)
+        #     return grid_portlets

@@ -40,7 +40,7 @@ $(document).ready(function() {
               if (form.data().friendlyaction === 'delete'){
                 var gridster = $(".gridster ul").gridster().data('gridster');
                 gridster.remove_widget(form.parents('li'));
-                $('#form-widgets-IGridlets-gridlets').val(JSON.stringify(gridster.serialize()))
+                $('#form-widgets-IGridlets-gridlets').val(JSON.stringify(gridster.serialize()));
               }
               if (form.data().friendlyaction === 'toggle'){
                 button = form.children('a');
@@ -63,4 +63,5 @@ $(document).ready(function() {
       });
       return false;
   });
+
 });

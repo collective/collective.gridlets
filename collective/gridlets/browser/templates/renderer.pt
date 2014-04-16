@@ -3,16 +3,33 @@ We make our own portlet manager renderer instead of parasitizing the one used by
 This means we can get rid of the "manage portlets" link that comes along with all the other Plone column goodness
 </tal:comment>
 
-<tal:block repeat="row view/get_grid_portlets">
-  <!-- <span tal:content="row"></span> -->
-  <div class="row">
-    <tal:columns repeat="portlet row">
-      <div tal:attributes="class string:col-md-${portlet/size_x}">
-        <div tal:attributes="id string:portletwrapper-${portlet/hash};
-                           class string:portletWrapper kssattr-portlethash-${portlet/hash};"
-             tal:content="structure python:view.safe_render(portlet['renderer'])" />
-      </div>
-    </tal:columns>
-  </div>
-</tal:block>
-
+<tal:gridlets define="grid view/get_grid_portlets">
+  <tal:block repeat="row grid/gridlets">
+    <!-- <span tal:content="row"></span> -->
+    <div class="row">
+      <tal:columns repeat="portlet row">
+        <div tal:attributes="class string:col-md-${portlet/size_x}">
+          <div tal:attributes="id string:portletwrapper-${portlet/hash};
+                             class string:portletWrapper kssattr-portlethash-${portlet/hash};"
+               tal:content="structure python:view.safe_render(portlet['renderer'])" />
+        </div>
+      </tal:columns>
+    </div>
+  </tal:block>
+  <tal:unassigned condition="grid/unassigned">
+    <h1 class="documentFirstHeading">Unassigned portlets</h1>
+    <p class="documentDescription">
+      These are the unassigned gridlets in this context. To assign them to a
+      position, edit it and move/resize the unassigned portlet.
+    </p>
+    <div class="row">
+      <tal:block repeat="portlet grid/unassigned">
+        <div tal:attributes="class string:col-md-${repeat/portlet/number}">
+          <div tal:attributes="id string:portletwrapper-${portlet/hash};
+                             class string:portletWrapper kssattr-portlethash-${portlet/hash};"
+               tal:content="structure python:view.safe_render(portlet['renderer'])" />
+        </div>
+      </tal:block>
+    </div>
+  </tal:unassigned>
+</tal:gridlets>

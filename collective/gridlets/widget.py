@@ -97,7 +97,7 @@ class GridsterWidget(textarea.TextAreaWidget):
         return GridletsAddPortletsRenderer(self.context, self.request, manageview, manager)
 
     def get_gridlet_position(self, portlet_hash):
-        if self.context.gridlets:
+        if getattr(self.context, 'gridlets', False):
             positions = json.loads(self.context.gridlets)
             for position in positions:
                 if position['id'] == portlet_hash:
@@ -112,6 +112,8 @@ class GridsterWidget(textarea.TextAreaWidget):
         else:
             # Is the first portlet so init the value
             self.context.gridlets = json.dumps([dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1)])
+            import transaction
+            transaction.commit()
 
             # And return a faked one for this time only
             return dict(row=1, col=1, size_x=1, size_y=1)

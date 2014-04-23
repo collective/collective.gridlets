@@ -31,7 +31,8 @@ setup(name='collective.gridlets',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'plone.directives.form',
+          'rwproperty'
       ],
       entry_points="""
       # -*- Entry points: -*-

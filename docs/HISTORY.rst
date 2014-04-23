@@ -4,4 +4,5 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
-- Initial release
+- Removed rwproperty and plone.directives.form dependency
+  [gborelli]

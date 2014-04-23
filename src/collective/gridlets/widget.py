@@ -84,7 +84,7 @@ class GridsterWidget(textarea.TextAreaWidget):
             return self.input_template(self)
 
     def getIt(self):
-        import ipdb;ipdb.set_trace()
+        pass
 
     def render_edit_portlet_manager(self):
         managerview = self.get_portlet_manager_view()
@@ -120,6 +120,6 @@ class GridsterWidget(textarea.TextAreaWidget):
 
 
 @zope.interface.implementer(interfaces.IFieldWidget)
-def GridsterField(field, request):
+def GridsterFieldWidget(field, request):
     """IFieldWidget factory for GridsterWidget."""
     return widget.FieldWidget(field, GridsterWidget(request))

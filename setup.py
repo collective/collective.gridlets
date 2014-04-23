@@ -19,7 +19,7 @@ setup(name='collective.gridlets',
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.6",
           "Programming Language :: Python :: 2.7",
-        ],
+      ],
       keywords='plone grid portlets homepage cover dynamic',
       author='Víctor Fernández de Alba',
       author_email='sneridagh@gmail.com',
@@ -32,13 +32,13 @@ setup(name='collective.gridlets',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'plone.directives.form',
-          'rwproperty'
+          'plone.supermodel',
+          'plone.autoform'
       ],
       extra_require={
-        'test': [
-            "plone.app.testing"
-        ]
+          'test': [
+              "plone.app.testing"
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-

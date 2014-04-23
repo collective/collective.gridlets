@@ -6,8 +6,6 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.gridlets">
 
-  <five:registerPackage package="." initialize=".initialize" />
-
   <include package=".browser" />
 
   <include package="plone.directives.form" file="meta.zcml" />
@@ -17,7 +15,6 @@
       title="Gridlet Field"
       description="Add field for store gridlets serialization"
       provides=".behavior.IGridlets"
-      factory=".behavior.Gridlets"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 

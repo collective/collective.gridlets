@@ -13,6 +13,7 @@ from plone.app.portlets.browser.editmanager import ContextualEditPortletManagerR
 from plone.app.portlets.browser.editmanager import ManagePortletAssignments
 from plone.portlets.interfaces import IPortletAssignmentSettings
 from plone.app.portlets.interfaces import IPortletPermissionChecker
+from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
@@ -22,6 +23,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.portlets.interfaces import IPortletManager
 
 from collective.gridlets.interfaces import IGridletsPortletManager
+from collective.gridlets.interfaces import IGridletSettings
 from Acquisition import aq_inner
 
 import json
@@ -126,9 +128,16 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
     adapts(Interface, IDefaultBrowserLayer, IBrowserView, IGridletsPortletManager)
     template = ViewPageTemplateFile('templates/renderer.pt')
 
-    def get_grid_portlets(self):
+    @property
+    def config(self):
+        registry = getUtility(IRegistry)
+        return registry.forInterface(IGridletSettings)
 
-        grid = dict(unassigned=[], gridlets=[])
+    def get_grid_portlets(self):
+        grid = {
+            'unassigned': [],
+            'gridlets': []
+        }
 
         if getattr(self.context, 'gridlets', False):
             grid_positions = json.loads(self.context.gridlets)
@@ -141,36 +150,58 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
             indexed_positions[grid_position['id']] = grid_position
 
         indexed_by_row = {}
+        prev_size_x = 0
         for portlet in self.allPortlets():
             if portlet['hash'] in indexed_positions:
                 portlet_position = indexed_positions[portlet['hash']]
                 indexed_by_row.setdefault(portlet_position['row'], [])
-                indexed_by_row[portlet_position['row']].append(dict(row=portlet_position['row'],
-                                                                    col=portlet_position['col'],
-                                                                    size_x=str(int(portlet_position['size_x'] * 2)),
-                                                                    size_y=portlet_position['size_y'],
-                                                                    hash=portlet['hash'],
-                                                                    category=portlet['category'],
-                                                                    available=portlet['available'],
-                                                                    name=portlet['name'],
-                                                                    assignment=portlet['assignment'],
-                                                                    manager=portlet['manager'],
-                                                                    renderer=portlet['renderer'],
-                                                                    key=portlet['key']))
+
+                size_x = int(portlet_position['size_x'] * 2)
+                row = indexed_by_row.get(portlet_position['row'])
+                if not row:
+                    row = indexed_by_row[portlet_position['row']] = []
+                    prev_size_x = 0
+                position = prev_size_x
+
+                cell = {
+                    'row': portlet_position['row'],
+                    'col': portlet_position['col'],
+                    'css_class': self.config.css_cell_class.format(
+                        position=position,
+                        width=size_x
+                    ),
+                    'size_x': str(size_x),
+                    'position': position,
+                    'size_y': portlet_position['size_y'],
+                    'hash': portlet['hash'],
+                    'category': portlet['category'],
+                    'available': portlet['available'],
+                    'name': portlet['name'],
+                    'assignment': portlet['assignment'],
+                    'manager': portlet['manager'],
+                    'renderer': portlet['renderer'],
+                    'key': portlet['key']
+                }
+                prev_size_x = size_x
+                row.append(cell)
             else:
                 # We have an unsaved (unassigned) portlet, so append it to the
                 # unassigned list
-                grid['unassigned'].append(dict(hash=portlet['hash'],
-                                               category=portlet['category'],
-                                               available=portlet['available'],
-                                               name=portlet['name'],
-                                               assignment=portlet['assignment'],
-                                               manager=portlet['manager'],
-                                               renderer=portlet['renderer'],
-                                               key=portlet['key']))
+                grid['unassigned'].append({
+                    'hash': portlet['hash'],
+                    'category': portlet['category'],
+                    'available': portlet['available'],
+                    'name': portlet['name'],
+                    'assignment': portlet['assignment'],
+                    'manager': portlet['manager'],
+                    'renderer': portlet['renderer'],
+                    'key': portlet['key']
+                })
 
         for k in sorted(indexed_by_row):
-            grid['gridlets'].append(sorted(indexed_by_row[k], key=lambda x: x['col']))
+            grid['gridlets'].append(
+                sorted(indexed_by_row[k], key=lambda x: x['col'])
+            )
 
         return grid
 

@@ -32,6 +32,7 @@ setup(name='collective.gridlets',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.CMFCore',
           'plone.supermodel',
           'plone.autoform'
       ],

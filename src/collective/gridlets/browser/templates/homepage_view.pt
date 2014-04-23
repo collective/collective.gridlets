@@ -17,11 +17,7 @@
 
   <div metal:fill-slot="main">
     <div class="homepage">
-      <div class="row">
-        <div class="col-md-12">
-          <span tal:replace="structure view/render_gridlets" />
-        </div>
-      </div>
+      <span tal:replace="structure view/render_gridlets" />
     </div>
   </div>
 

@@ -5,10 +5,10 @@ This means we can get rid of the "manage portlets" link that comes along with al
 
 <tal:gridlets define="grid view/get_grid_portlets">
   <tal:block repeat="row grid/gridlets">
-    <!-- <span tal:content="row"></span> -->
-    <div class="row">
+    <div class="row"
+         tal:attributes="class view/config/css_row_class">
       <tal:columns repeat="portlet row">
-        <div tal:attributes="class string:col-md-${portlet/size_x}">
+        <div tal:attributes="class portlet/css_class">
           <div tal:attributes="id string:portletwrapper-${portlet/hash};
                              class string:portletWrapper kssattr-portlethash-${portlet/hash};"
                tal:content="structure python:view.safe_render(portlet['renderer'])" />

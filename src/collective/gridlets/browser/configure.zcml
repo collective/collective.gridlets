@@ -67,6 +67,15 @@
         provides="plone.portlets.interfaces.IPortletManagerRenderer"
     />
 
+    <!-- control panel -->
+    <browser:page
+        name="gridlets_preferences"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.ControlPanelView"
+        layer="..interfaces.IGridletsLayer"
+        permission="cmf.ManagePortal"
+        />
+
 <!-- RESOURCES -->
     <browser:resource
         name="collective.gridlets.js"

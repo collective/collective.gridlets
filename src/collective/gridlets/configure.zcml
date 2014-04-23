@@ -6,12 +6,11 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.gridlets">
 
+
+  <includeDependencies package="." />
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
-
-  <include package="plone.directives.form" file="meta.zcml" />
-  <include package="plone.directives.form" />
 
   <plone:behavior
       title="Gridlet Field"

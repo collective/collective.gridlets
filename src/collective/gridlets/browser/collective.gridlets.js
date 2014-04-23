@@ -1,6 +1,7 @@
 /*global console, window, jQuery, document, alert, initTinyMCE */
 (function ($) {
     "use strict";
+
     if ((typeof window.gridlets) === 'undefined') {
         window.gridlets = {};
     }
@@ -15,10 +16,10 @@
         self.$trigger.find('.gridster ul').gridster({
             widget_margins: [10, 10],
             widget_base_dimensions: [150, 150],
-            max_cols: 6,
+            max_cols: 2,
             resize: {
                 enabled: true,
-                axes: ['x'],
+                // axes: ['x'],
                 stop: function(e, ui, $widget) {
                     var data = {
                         position: JSON.stringify(this.serialize())
@@ -65,7 +66,6 @@
                 // If the plugin hasn't been initialized yet
                 if (!data) {
                     gridlets_widget = new gridlets.Gridlets($this, settings);
-
                     $(this).data('gridlets_widget', gridlets_widget);
                 }
             });

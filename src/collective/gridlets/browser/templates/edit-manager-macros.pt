@@ -8,19 +8,27 @@
         <input type="hidden" name="referer" tal:attributes="value view/referer" />
 
         <div class="btn-group">
-          <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
-            <tal:addportlet i18n:translate="label_add_portlet_ellipsis">
-              Add portlet&hellip;
-            </tal:addportlet>
-            <span class="caret"></span>
-          </button>
-          <ul id="gridportletselector" class="dropdown-menu">
+          
+          <!--<ul id="gridportletselector" class="dropdown-menu">
             <li tal:repeat="portlet portlets">
               <a tal:attributes="href string:${portlet/addview}"
                  tal:content="portlet/title"
                  i18n:translate="" />
             </li>
-          </ul>
+          </ul>-->
+          <select name="gridportletselector" id="gridportletseletor">
+              <option>Select portlet...</option>
+              <option tal:repeat="portlet portlets"
+                  tal:attributes="value portlet/addview"
+                  tal:content="portlet/title"
+                  i18n:translate=""></option>
+          </select>
+          <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+              <tal:addportlet i18n:translate="label_add_portlet_ellipsis">
+                Add portlet&hellip;
+              </tal:addportlet>
+              <span class="caret"></span>
+          </button>
         </div>
 
         <input type="hidden" name=":action" value="" />

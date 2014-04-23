@@ -25,7 +25,8 @@ setup(name='collective.gridlets',
       author_email='sneridagh@gmail.com',
       url='https://github.com/collective/collective.gridlets',
       license='GPL',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=find_packages('src', exclude=['ez_setup']),
+      package_dir={'': 'src'},
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
@@ -34,6 +35,11 @@ setup(name='collective.gridlets',
           'plone.directives.form',
           'rwproperty'
       ],
+      extra_require={
+        'test': [
+            "plone.app.testing"
+        ]
+      },
       entry_points="""
       # -*- Entry points: -*-
 

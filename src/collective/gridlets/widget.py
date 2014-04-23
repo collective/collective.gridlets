@@ -31,52 +31,6 @@ class GridsterWidget(textarea.TextAreaWidget):
     display_template = ViewPageTemplateFile('browser/templates/gridster_display.pt')
     input_template = ViewPageTemplateFile('browser/templates/gridster_input.pt')
 
-    # JavaScript template
-    js_template = u"""\
-    (function($) {
-        $().ready(function() {
-            $('.gridster ul').gridster({
-                widget_margins: [10, 10],
-                widget_base_dimensions: [150, 150],
-                max_cols: 6,
-                resize: {
-                  enabled: true,
-                  axes: ['x'],
-                  stop: function(e, ui, $widget) {
-                    data = {
-                      position: JSON.stringify(this.serialize())
-                    }
-                    $('#'+'%(id)s').val(data.position);
-                  }
-                },
-                draggable: {
-                  stop: function(event, ui) {
-                    data = {
-                      position: JSON.stringify(this.serialize())
-                    };
-                    $('#'+'%(id)s').val(data.position);
-                  }
-                },
-                serialize_params: function($w, wgd) {
-                  return {
-                    id: $($w).data().portlethash,
-                    col: wgd.col,
-                    row: wgd.row,
-                    size_x: wgd.size_x,
-                    size_y: wgd.size_y
-                  };
-                }
-            });
-
-        // var gridster = $(".gridster ul").gridster().data('gridster');
-
-        });
-    })(jQuery);
-    """
-
-    def js(self):
-        return self.js_template % dict(id=self.id)
-
     def render(self):
         if self.mode == interfaces.DISPLAY_MODE:
             return self.display_template(self)

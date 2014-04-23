@@ -17,14 +17,14 @@
             </li>
           </ul>-->
           <select name="gridportletselector" id="gridportletseletor">
-              <option>Select portlet...</option>
+              <option i18n:translate="label_add_portlet_ellipsis"></option>
               <option tal:repeat="portlet portlets"
                   tal:attributes="value portlet/addview"
                   tal:content="portlet/title"
                   i18n:translate=""></option>
           </select>
           <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
-              <tal:addportlet i18n:translate="label_add_portlet_ellipsis">
+              <tal:addportlet i18n:translate="submit">
                 Add portlet&hellip;
               </tal:addportlet>
               <span class="caret"></span>

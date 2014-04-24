@@ -75,7 +75,6 @@ class GridsterWidget(textarea.TextAreaWidget):
         else:
             # Is the first portlet so init the value
             self.context.gridlets = json.dumps([dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1)])
-            import pdb; pdb.set_trace( )
             import transaction
             transaction.commit()
 

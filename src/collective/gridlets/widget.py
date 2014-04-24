@@ -16,7 +16,10 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 
+from plone.registry.interfaces import IRegistry
+
 from collective.gridlets.interfaces import IGridsterWidget
+from collective.gridlets.interfaces import IGridletSettings
 
 import json
 import zope.component
@@ -28,8 +31,14 @@ class GridsterWidget(textarea.TextAreaWidget):
     """Widget for Gridster Input area."""
     zope.interface.implementsOnly(IGridsterWidget)
     klass = u"gridster-widget"
-    display_template = ViewPageTemplateFile('browser/templates/gridster_display.pt')
+    display_template = ViewPageTemplateFile(
+        'browser/templates/gridster_display.pt')
     input_template = ViewPageTemplateFile('browser/templates/gridster_input.pt')
+
+    def gridster_column(self):
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IGridletSettings)
+        return settings.n_of_columns
 
     def render(self):
         if self.mode == interfaces.DISPLAY_MODE:
@@ -66,6 +75,7 @@ class GridsterWidget(textarea.TextAreaWidget):
         else:
             # Is the first portlet so init the value
             self.context.gridlets = json.dumps([dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1)])
+            import pdb; pdb.set_trace( )
             import transaction
             transaction.commit()
 

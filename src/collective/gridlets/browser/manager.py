@@ -31,7 +31,12 @@ import json
 
 class GridletsAddPortletsRenderer(ContextualEditPortletManagerRenderer):
     """Render a portlet manager in edit mode for contextual portlets"""
-    adapts(Interface, IDefaultBrowserLayer, IManageContextualPortletsView, IGridletsPortletManager)
+    adapts(
+        Interface,
+        IDefaultBrowserLayer,
+        IManageContextualPortletsView,
+        IGridletsPortletManager
+    )
 
     template = ViewPageTemplateFile('templates/add-portlets-widget.pt')
 
@@ -44,7 +49,12 @@ class GridletsAddPortletsRenderer(ContextualEditPortletManagerRenderer):
 
 class GridletsContextualPortletManagerRenderer(ContextualEditPortletManagerRenderer):
     """Render a portlet manager in edit mode for contextual portlets"""
-    adapts(Interface, IDefaultBrowserLayer, IManageContextualPortletsView, IGridletsPortletManager)
+    adapts(
+        Interface,
+        IDefaultBrowserLayer,
+        IManageContextualPortletsView,
+        IGridletsPortletManager
+    )
 
     template = ViewPageTemplateFile('templates/edit-manager-contextual.pt')
 
@@ -56,17 +66,29 @@ class GridletsContextualPortletManagerRenderer(ContextualEditPortletManagerRende
                     return position
 
             # We have a new portlet in the house so update the annotation
-            positions.append(dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1))
+            positions.append({
+                'id': portlet_hash,
+                'row': 1,
+                'col': 1,
+                'size_x': 1,
+                'size_y': 1
+            })
             self.context.gridlets = json.dumps(positions)
             # And return a faked one for this time only
-            return dict(row=1, col=1, size_x=1, size_y=1)
+            return {'row': 1, 'col': 1, 'size_x': 1, 'size_y': 1}
 
         else:
             # Is the first portlet so init the value
-            self.context.gridlets = json.dumps([dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1)])
+            self.context.gridlets = json.dumps([{
+                'id': portlet_hash,
+                'row': 1,
+                'col': 1,
+                'size_x': 1,
+                'size_y': 1
+            }])
 
             # And return a faked one for this time only
-            return dict(row=1, col=1, size_x=1, size_y=1)
+            return {'row': 1, 'col': 1, 'size_x': 1, 'size_y': 1}
 
 
 class GridletsManageContextualPortlets(ManageContextualPortlets):
@@ -80,17 +102,29 @@ class GridletsManageContextualPortlets(ManageContextualPortlets):
                     return position
 
             # We have a new portlet in the house so update the annotation
-            positions.append(dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1))
+            positions.append({
+                'id': portlet_hash,
+                'row': 1,
+                'col': 1,
+                'size_x': 1,
+                'size_y': 1
+            })
             self.context.gridlets = json.dumps(positions)
             # And return a faked one for this time only
-            return dict(row=1, col=1, size_x=1, size_y=1)
+            return {'row': 1, 'col': 1, 'size_x': 1, 'size_y': 1}
 
         else:
             # Is the first portlet so init the value
-            self.context.gridlets = json.dumps([dict(id=portlet_hash, row=1, col=1, size_x=1, size_y=1)])
+            self.context.gridlets = json.dumps([{
+                'id': portlet_hash,
+                'row':1,
+                'col': 1,
+                'size_x': 1,
+                'size_y':1
+            }])
 
             # And return a faked one for this time only
-            return dict(row=1, col=1, size_x=1, size_y=1)
+            return {'row': 1, 'col': 1, 'size_x': 1, 'size_y': 1}
 
 
 class ManageGridletsPortletAssignments(ManagePortletAssignments):
@@ -134,135 +168,74 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
         return registry.forInterface(IGridletSettings)
 
     def get_grid_portlets(self):
-        grid = {
+        results = {
             'unassigned': [],
             'gridlets': []
         }
 
         if getattr(self.context, 'gridlets', False):
-            grid_positions = json.loads(self.context.gridlets)
+            gridster = json.loads(self.context.gridlets)
         else:
-            grid_positions = []
+            gridster = []
 
-        # First index the positions
-        indexed_positions = {}
-        for grid_position in grid_positions:
-            indexed_positions[grid_position['id']] = grid_position
+        # sort by row and column
+        gridster.sort(key=lambda x: x['row'] ^ x['col'])
 
-        indexed_by_row = {}
-        prev_size_x = 0
-        for portlet in self.allPortlets():
-            if portlet['hash'] in indexed_positions:
-                portlet_position = indexed_positions[portlet['hash']]
-                indexed_by_row.setdefault(portlet_position['row'], [])
+        # get all portlet by hash
+        portlets = {i['hash']: i for i in self.allPortlets()}
 
-                size_x = int(portlet_position['size_x'] * 2)
-                row = indexed_by_row.get(portlet_position['row'])
-                if not row:
-                    row = indexed_by_row[portlet_position['row']] = []
-                    prev_size_x = 0
-                position = prev_size_x
+        rows = {}
+        layout_columns = self.config.n_of_columns
+        grid_system_columns = self.config.grid_system_columns
+        column_ratio = grid_system_columns / layout_columns
+        remainder = grid_system_columns % layout_columns
 
-                cell = {
-                    'row': portlet_position['row'],
-                    'col': portlet_position['col'],
-                    'css_class': self.config.css_cell_class.format(
-                        position=position,
-                        width=size_x
-                    ),
-                    'size_x': str(size_x),
-                    'position': position,
-                    'size_y': portlet_position['size_y'],
-                    'hash': portlet['hash'],
-                    'category': portlet['category'],
-                    'available': portlet['available'],
-                    'name': portlet['name'],
-                    'assignment': portlet['assignment'],
-                    'manager': portlet['manager'],
-                    'renderer': portlet['renderer'],
-                    'key': portlet['key']
-                }
-                prev_size_x = size_x
-                row.append(cell)
-            else:
-                # We have an unsaved (unassigned) portlet, so append it to the
-                # unassigned list
-                grid['unassigned'].append({
-                    'hash': portlet['hash'],
-                    'category': portlet['category'],
-                    'available': portlet['available'],
-                    'name': portlet['name'],
-                    'assignment': portlet['assignment'],
-                    'manager': portlet['manager'],
-                    'renderer': portlet['renderer'],
-                    'key': portlet['key']
-                })
+        positions = {}
+        # for each element in my grid
+        # I get a portlet
+        # set its properties
+        # and I populate a dictionary of rows that contains
+        # another dictionary of columns...
+        for element in gridster:
+            _portlet = portlets[element['id']]
+            width = int(element['size_x'] * column_ratio)
+            row_idx = element['row']
+            row = rows.get(row_idx)
 
-        for k in sorted(indexed_by_row):
-            grid['gridlets'].append(
-                sorted(indexed_by_row[k], key=lambda x: x['col'])
-            )
+            if not row:
+                row = rows[row_idx] = {}
+                positions[row_idx] = 0
 
-        return grid
+            current_position = positions[row_idx]
+            positions[row_idx] += width
 
-        # allportlets = {}
-        # for portlet in unordered_portlets:
-        #     allportlets[portlet['hash']] = portlet
+            # help me column doesn't fit the grid system...
+            # We fix that...
+            if (current_position + width + remainder) == grid_system_columns:
+                width += remainder
 
-        # if self.context.gridlets:
-        #     positions = json.loads(self.context.gridlets)
-        #     index = {}
-        #     # {1: [portlet1, portlet2]}
-        #     for portlet in positions:
-        #         index.setdefault(portlet['row'], [])
-        #         portlet_info = allportlets.get(portlet['id'], False)
-        #         if portlet_info:
-        #             index[portlet['row']].append(dict(row=portlet['row'],
-        #                                               col=portlet['col'],
-        #                                               size_x=str(int(portlet['size_x'] * 2)),
-        #                                               size_y=portlet['size_y'],
-        #                                               hash=portlet['id'],
-        #                                               category=portlet_info['category'],
-        #                                               available=portlet_info['available'],
-        #                                               name=portlet_info['name'],
-        #                                               assignment=portlet_info['assignment'],
-        #                                               manager=portlet_info['manager'],
-        #                                               renderer=portlet_info['renderer'],
-        #                                               key=portlet_info['key']))
-        #         else:
-        #             # We have an unsaved portlet, so assign it to (1, 1)
-        #             index.setdefault('unassigned', [])
-        #             index['unassigned'].append(dict(hash=portlet['id'],
-        #                                             category=portlet_info['category'],
-        #                                             available=portlet_info['available'],
-        #                                             name=portlet_info['name'],
-        #                                             assignment=portlet_info['assignment'],
-        #                                             manager=portlet_info['manager'],
-        #                                             renderer=portlet_info['renderer'],
-        #                                             key=portlet_info['key']))
-        #     grid_portlets = []
-        #     for k in sorted(index.keys()):
-        #         grid_portlets.append(sorted(index[k], key=lambda x: x['col']))
-        #     import ipdb;ipdb.set_trace()
-        #     return grid_portlets
-        # else:
-        #     # We have no gridlets because it's the first one and we haven't
-        #     # either positioned it or change its size.
-        #     grid_portlets = []
-        #     list_portlets = []
-        #     for portlet_info in unordered_portlets:
-        #         list_portlets.append(dict(row='1',
-        #                                   col='1',
-        #                                   size_x='2',
-        #                                   size_y='1',
-        #                                   hash=portlet['hash'],
-        #                                   category=portlet_info['category'],
-        #                                   available=portlet_info['available'],
-        #                                   name=portlet_info['name'],
-        #                                   assignment=portlet_info['assignment'],
-        #                                   manager=portlet_info['manager'],
-        #                                   renderer=portlet_info['renderer'],
-        #                                   key=portlet_info['key']))
+            tile = {
+                'css_class': self.config.css_cell_class.format(
+                    position=current_position,
+                    width=width
+                ),
+                'hash': _portlet['hash'],
+                'category': _portlet['category'],
+                'available': _portlet['available'],
+                'name': _portlet['name'],
+                'assignment': _portlet['assignment'],
+                'manager': _portlet['manager'],
+                'renderer': _portlet['renderer'],
+                'key': _portlet['key']
+            }
+            row[element['col']] = tile
 
-        #     grid_portlets.append(list_portlets)
-        #     return grid_portlets
+        rows_idx = rows.keys()
+        rows_idx.sort()
+        for idx in rows_idx:
+            row = rows[idx]
+            cols_idx = row.keys()
+            cols_idx.sort()
+            results['gridlets'].append([row[i] for i in cols_idx])
+
+        return results

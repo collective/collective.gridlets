@@ -11,15 +11,27 @@
     gridlets.Gridlets = function (trigger, settings) {
         var self = this;
         self.$trigger = trigger;
+        self.columns = self.$trigger.data('gridletsColumns');
+        self.min_size = 1;
         $.extend(self, settings);
+
+        self.x_base_dimension = (self.$trigger.width() - 200) / self.columns;
+        self.y_base_dimension = (self.$trigger.width() - 200) / (self.columns * 4);
+        self.max_cols = self.columns * self.min_size;
 
         self.$trigger.find('.gridster ul').gridster({
             widget_margins: [10, 10],
-            widget_base_dimensions: [150, 150],
-            max_cols: 2,
+            widget_base_dimensions: [
+                self.x_base_dimension,
+                self.y_base_dimension
+            ],
+            max_cols: self.max_cols,
+            max_size_x: self.max_cols,
             resize: {
                 enabled: true,
-                // axes: ['x'],
+                min_size: [self.min_size, 1],
+                max_size: [self.max_cols, 1],
+                axes: ['x'],
                 stop: function(e, ui, $widget) {
                     var data = {
                         position: JSON.stringify(this.serialize())
@@ -46,7 +58,6 @@
                 };
             }
         });
-
         // var gridster = $(".gridster ul").gridster().data('gridster');
 
     };

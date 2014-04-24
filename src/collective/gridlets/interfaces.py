@@ -43,6 +43,11 @@ class IGridletSettings(Interface):
     )
 
     n_of_columns = schema.Int(
+        title=_(u"Max number of column for your layout"),
+        description=_(u"")
+    )
+
+    grid_system_columns = schema.Int(
         title=_(u"Max number of column for your grid system"),
         description=_(u"")
     )

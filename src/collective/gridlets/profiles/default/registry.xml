@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<registry>
+    <records interface="collective.gridlets.interfaces.IGridletSettings">
+      <value key="css_row_class">row</value>
+      <value key="css_cell_class"
+        >cell width-{width} position-{position}</value>
+      <value key="n_of_columns">2</value>
+      <value key="grid_system_columns">16</value>
+    </records>
+</registry>

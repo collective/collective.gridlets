@@ -1,3 +1,7 @@
+#content .gridster ul {
+    margin: 0;
+}
+
 .gridster li {
     list-style: none;
 }

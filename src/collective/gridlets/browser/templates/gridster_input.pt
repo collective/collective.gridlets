@@ -6,7 +6,8 @@
 
   <span tal:replace="structure view/render_edit_portlet_manager" />
   <!-- <span tal:content="view/getIt"></span> -->
-  <div class="gridlets-widget">
+  <div class="gridlets-widget"
+      tal:attributes="data-gridlets-columns view/gridster_column">
     <div class="gridster">
       <ul>
         <!-- Generate here all the existing portlets from edit-manager-macros -->

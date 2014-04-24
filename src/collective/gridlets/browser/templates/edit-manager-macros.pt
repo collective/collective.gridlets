@@ -8,21 +8,21 @@
         <input type="hidden" name="referer" tal:attributes="value view/referer" />
 
         <div class="btn-group">
-          
-          <!--<ul id="gridportletselector" class="dropdown-menu">
+
+          <ul id="gridportletselector" class="dropdown-menu">
             <li tal:repeat="portlet portlets">
               <a tal:attributes="href string:${portlet/addview}"
                  tal:content="portlet/title"
                  i18n:translate="" />
             </li>
-          </ul>-->
-          <select name="gridportletselector" id="gridportletseletor">
+          </ul>
+<!--           <select name="gridportletselector" id="gridportletseletor">
               <option i18n:translate="label_add_portlet_ellipsis"></option>
               <option tal:repeat="portlet portlets"
                   tal:attributes="value portlet/addview"
                   tal:content="portlet/title"
                   i18n:translate=""></option>
-          </select>
+          </select> -->
           <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
               <tal:addportlet i18n:translate="submit">
                 Add portlet&hellip;

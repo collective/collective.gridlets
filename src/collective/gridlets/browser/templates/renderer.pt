@@ -9,14 +9,14 @@ This means we can get rid of the "manage portlets" link that comes along with al
          tal:attributes="class view/config/css_row_class">
       <tal:columns repeat="portlet row">
         <div tal:attributes="class portlet/css_class">
-          <div tal:attributes="id string:portletwrapper-${portlet/hash};
-                             class string:portletWrapper kssattr-portlethash-${portlet/hash};"
+          <div class="portletWrapper"
+               tal:attributes="id string:portletwrapper-${portlet/hash}"
                tal:content="structure python:view.safe_render(portlet['renderer'])" />
-        </div>
+          </div>
       </tal:columns>
     </div>
   </tal:block>
-  <tal:unassigned condition="grid/unassigned">
+<!--   <tal:unassigned condition="grid/unassigned">
     <h1 class="documentFirstHeading">Unassigned portlets</h1>
     <p class="documentDescription">
       These are the unassigned gridlets in this context. To assign them to a
@@ -32,4 +32,5 @@ This means we can get rid of the "manage portlets" link that comes along with al
       </tal:block>
     </div>
   </tal:unassigned>
+ -->
 </tal:gridlets>

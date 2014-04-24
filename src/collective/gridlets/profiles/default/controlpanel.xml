@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel"
+  i18n:domain="collective.gridlets"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <configlet title="Gridlets"
+      action_id="Gridlets"
+      appId="collective.gridlets"
+      category="Products"
+      condition_expr=""
+      icon_expr=""
+      url_expr="string:${portal_url}/gridlets_preferences"
+      visible="True"
+      i18n:attributes="title">
+    <permission>Manage portal</permission>
+ </configlet>
+</object>
+

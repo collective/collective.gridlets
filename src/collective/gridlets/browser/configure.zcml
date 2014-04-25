@@ -76,25 +76,10 @@
         permission="cmf.ManagePortal"
         />
 
-<!-- RESOURCES -->
-    <browser:resource
-        name="collective.gridlets.js"
-        file="collective.gridlets.js"
-        />
-
-    <browser:resource
-        name="gridster.min.js"
-        file="gridster/jquery.gridster.min.js"
-        />
-
-    <browser:resource
-        name="gridster.css"
-        file="gridster/jquery.gridster.min.css"
-        />
-
-    <browser:resource
-        name="gridlets.css"
-        file="gridlets.css"
+    <!-- RESOURCES -->
+    <browser:resourceDirectory
+        name="collective.gridlets"
+        directory="static"
         />
 
 </configure>

@@ -34,7 +34,8 @@ setup(name='collective.gridlets',
           'setuptools',
           'Products.CMFCore',
           'plone.supermodel',
-          'plone.autoform'
+          'plone.autoform',
+          'plone.app.dexterity'
       ],
       extra_require={
           'test': [

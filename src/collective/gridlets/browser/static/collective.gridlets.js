@@ -10,17 +10,20 @@
 
     gridlets.Gridlets = function (trigger, settings) {
         var self = this;
+
         self.$trigger = trigger;
-        self.columns = self.$trigger.data('gridletsColumns');
+        self.n_columns = self.$trigger.data('gridletsColumns');
         self.min_size = 1;
+        self.padding = 10;
+        self.base_dimension_delta = self.$trigger.width() - (self.padding * self.n_columns * 2);
+        self.x_base_dimension = self.base_dimension_delta / self.n_columns;
+        self.y_base_dimension = self.base_dimension_delta / (self.n_columns * 4);
+        self.max_cols = self.n_columns * self.min_size;
+
         $.extend(self, settings);
 
-        self.x_base_dimension = (self.$trigger.width() - 200) / self.columns;
-        self.y_base_dimension = (self.$trigger.width() - 200) / (self.columns * 4);
-        self.max_cols = self.columns * self.min_size;
-
         self.$trigger.find('.gridster ul').gridster({
-            widget_margins: [10, 10],
+            widget_margins: [self.padding, self.padding],
             widget_base_dimensions: [
                 self.x_base_dimension,
                 self.y_base_dimension

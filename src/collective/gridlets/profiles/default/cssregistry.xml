@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <object name="portal_css" meta_type="Stylesheets Registry" autogroup="False">
  <stylesheet title="" cacheable="True" compression="safe" cookable="True"
-    enabled="True" expression="" id="++resource++gridster.css" media=""
+    enabled="True" expression="" id="++resource++collective.gridlets/gridster/jquery.gridster.min.css" media=""
     rel="stylesheet" rendering="link"/>
 
  <stylesheet title="" cacheable="True" compression="safe" cookable="True"
-    enabled="True" expression="" id="++resource++gridlets.css" media=""
+    enabled="True" expression="" id="++resource++collective.gridlets/gridlets.css" media=""
     rel="stylesheet" rendering="link"/>
 </object>

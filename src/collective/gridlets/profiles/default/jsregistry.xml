@@ -2,9 +2,9 @@
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
  <javascript authenticated="False" bundle="default" cacheable="True"
     compression="safe" conditionalcomment="" cookable="False" enabled="True"
-    expression="" id="++resource++gridster.min.js" inline="False"/>
+    expression="" id="++resource++collective.gridlets/gridster/jquery.gridster.min.js" inline="False"/>
 
  <javascript authenticated="False" bundle="default" cacheable="True"
     compression="safe" conditionalcomment="" cookable="False" enabled="True"
-    expression="" id="++resource++collective.gridlets.js" inline="False"/>
+    expression="" id="++resource++collective.gridlets/collective.gridlets.js" inline="False"/>
 </object>

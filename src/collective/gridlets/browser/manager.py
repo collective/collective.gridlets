@@ -211,7 +211,7 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
 
             # help me column doesn't fit the grid system...
             # We fix that...
-            if (current_position + width + remainder) == grid_system_columns:
+            if (positions[row_idx] + remainder) == grid_system_columns:
                 width += remainder
 
             tile = {

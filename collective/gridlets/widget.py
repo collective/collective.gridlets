@@ -37,8 +37,8 @@ class GridsterWidget(textarea.TextAreaWidget):
         $().ready(function() {
             $('.gridster ul').gridster({
                 widget_margins: [10, 10],
-                widget_base_dimensions: [150, 150],
-                max_cols: 6,
+                widget_base_dimensions: [50, 100],
+                max_cols: 12,
                 resize: {
                   enabled: true,
                   axes: ['x'],

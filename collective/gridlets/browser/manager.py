@@ -147,7 +147,7 @@ class GridletsPortletRenderer(ColumnPortletManagerRenderer):
                 indexed_by_row.setdefault(portlet_position['row'], [])
                 indexed_by_row[portlet_position['row']].append(dict(row=portlet_position['row'],
                                                                     col=portlet_position['col'],
-                                                                    size_x=str(int(portlet_position['size_x'] * 2)),
+                                                                    size_x=str(int(portlet_position['size_x'] * 1)),
                                                                     size_y=portlet_position['size_y'],
                                                                     hash=portlet['hash'],
                                                                     category=portlet['category'],
